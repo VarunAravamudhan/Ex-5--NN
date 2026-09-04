@@ -1,7 +1,7 @@
-H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME Varun A</H3>
+<H3>ENTER YOUR REGISTER NO. 212224240178 </H3>
 <H3>EX. NO.5</H3>
-<H3>DATE:</H3>
+<H3>DATE: 04-09-26 </H3>
 <H1 ALIGN =CENTER>Implementation of XOR  using RBF</H1>
 <H3>Aim:</H3>
 To implement a XOR gate classification using Radial Basis Function  Neural Network.
@@ -35,11 +35,61 @@ Step 7: Plot the Input space and Hidden space of RBF NN for XOR classification.
 
 <H3>PROGRAM:</H3>
 
-Insert  your code here
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+
+# XOR data
+X = np.array([[0,0],[0,1],[1,0],[1,1]])
+Y = np.array([0,1,1,0])
+
+# RBF centers
+mu1 = np.array([0,1])
+mu2 = np.array([1,0])
+
+# Gaussian RBF
+def rbf(x, mu):
+    return np.exp(-np.sum((x-mu)**2))
+
+# Transform inputs
+A = np.array([[rbf(x,mu1), rbf(x,mu2), 1] for x in X])
+
+# Find weights
+W = np.linalg.pinv(A) @ Y
+
+# Prediction
+pred = np.round(A @ W)
+
+print("Weights:", W)
+for x, y in zip(X, pred):
+    print("Input:", x, "Predicted:", int(y))
+
+# Graphs
+plt.figure(figsize=(10,4))
+
+plt.subplot(1,2,1)
+plt.scatter(X[Y==0,0], X[Y==0,1], label="Class 0")
+plt.scatter(X[Y==1,0], X[Y==1,1], label="Class 1")
+plt.xlabel("X1")
+plt.ylabel("X2")
+plt.title("XOR Input")
+plt.legend()
+
+plt.subplot(1,2,2)
+plt.scatter(A[Y==0,0], A[Y==0,1], label="Class 0")
+plt.scatter(A[Y==1,0], A[Y==1,1], label="Class 1")
+plt.xlabel("RBF1")
+plt.ylabel("RBF2")
+plt.title("RBF Transformed")
+plt.legend()
+
+plt.show()
+```
 
 <H3>OUTPUT:</H3>
 
-Show your code here
+<img width="725" height="510" alt="image" src="https://github.com/user-attachments/assets/d9c15a24-2ab6-4973-b595-d167a735ebc4" />
+
 
 <H3>Result:</H3>
 Thus , a Radial Basis Function Neural Network is implemented to classify XOR data.
